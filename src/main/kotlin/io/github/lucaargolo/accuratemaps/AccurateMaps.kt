@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.networking.v1.PacketByteBufs
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.Identifier
+import net.minecraft.world.PersistentState
 
 object AccurateMaps: ModInitializer {
 
@@ -16,8 +17,9 @@ object AccurateMaps: ModInitializer {
     override fun onInitialize() {
         ServerPlayNetworking.registerGlobalReceiver(REQUEST_ACCURATE_MAP) { server, player, _, outerBuf, _ ->
             val id = outerBuf.readInt()
+            val type = PersistentState.Type(::AccurateMapState,AccurateMapState::createFromNbt,null);
             server.execute {
-                val accurateMapState = player.server.overworld.persistentStateManager.getOrCreate(AccurateMapState::createFromNbt, ::AccurateMapState, "accurate_map_$id")
+                val accurateMapState = player.server.overworld.persistentStateManager.getOrCreate(type, "accurate_map_$id")
                 val nbt = accurateMapState.writeClientNbt(NbtCompound())
                 val innerBuf = PacketByteBufs.create()
                 innerBuf.writeInt(id)
