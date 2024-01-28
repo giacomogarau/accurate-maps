@@ -14,9 +14,11 @@ import net.minecraft.world.biome.BiomeKeys
 import net.minecraft.world.chunk.ChunkProvider
 import net.minecraft.world.chunk.light.LightingProvider
 import net.minecraft.world.biome.ColorResolver
+import net.minecraft.world.chunk.light.ChunkSkyLight
 import net.minecraft.world.chunk.light.LightSourceView
+import java.util.function.BiConsumer
 
-class AccurateMapRenderView(private val accurateMapState: AccurateMapState, val world: World): BlockRenderView {
+class AccurateMapRenderView(private val accurateMapState: AccurateMapState, val world: World): BlockRenderView, LightSourceView{
 
     private val lightningProvider = LightingProvider(AccurateMapRenderViewChunkProvider(), true, true)
     private val colorCache = mutableMapOf<BlockPos, Int>()
@@ -33,6 +35,13 @@ class AccurateMapRenderView(private val accurateMapState: AccurateMapState, val 
     }
 
     override fun getFluidState(pos: BlockPos): FluidState = getBlockState(pos).fluidState
+    override fun forEachLightSource(callback: BiConsumer<BlockPos, BlockState>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getChunkSkyLight(): ChunkSkyLight {
+        TODO("Not yet implemented")
+    }
 
     override fun getBrightness(direction: Direction?, shaded: Boolean) = 1f
 
@@ -47,7 +56,7 @@ class AccurateMapRenderView(private val accurateMapState: AccurateMapState, val 
     }
 
     private inner class AccurateMapRenderViewChunkProvider: ChunkProvider {
-        override fun getChunk(chunkX: Int, chunkZ: Int) = this@AccurateMapRenderView as LightSourceView
+        override fun getChunk(chunkX: Int, chunkZ: Int) = this@AccurateMapRenderView
         override fun getWorld() = this@AccurateMapRenderView
     }
 
