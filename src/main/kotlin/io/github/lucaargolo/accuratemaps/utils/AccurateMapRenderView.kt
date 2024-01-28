@@ -1,21 +1,21 @@
 package io.github.lucaargolo.accuratemaps.utils
 
-import it.unimi.dsi.fastutil.longs.Long2IntArrayMap
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.fluid.FluidState
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
-import net.minecraft.registry.RegistryKeys
 import net.minecraft.world.BlockRenderView
+import net.minecraft.world.HeightLimitView
 import net.minecraft.world.World
 import net.minecraft.world.biome.BiomeKeys
-import net.minecraft.world.chunk.ChunkProvider
-import net.minecraft.world.chunk.light.LightingProvider
 import net.minecraft.world.biome.ColorResolver
+import net.minecraft.world.chunk.ChunkProvider
 import net.minecraft.world.chunk.light.ChunkSkyLight
 import net.minecraft.world.chunk.light.LightSourceView
+import net.minecraft.world.chunk.light.LightingProvider
 import java.util.function.BiConsumer
 
 class AccurateMapRenderView(private val accurateMapState: AccurateMapState, val world: World): BlockRenderView, LightSourceView{
@@ -38,9 +38,20 @@ class AccurateMapRenderView(private val accurateMapState: AccurateMapState, val 
     override fun forEachLightSource(callback: BiConsumer<BlockPos, BlockState>?) {
         TODO("Not yet implemented")
     }
+    /* might make maps look bad? */
+    private fun create(): HeightLimitView {
+        return object : HeightLimitView {
+            override fun getHeight(): Int {
+                return 200000
+            }
 
+            override fun getBottomY(): Int {
+                return -200000
+            }
+        }
+    }
     override fun getChunkSkyLight(): ChunkSkyLight {
-        TODO("Not yet implemented")
+        return ChunkSkyLight(create());
     }
 
     override fun getBrightness(direction: Direction?, shaded: Boolean) = 1f
