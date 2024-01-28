@@ -38,20 +38,8 @@ class AccurateMapRenderView(private val accurateMapState: AccurateMapState, val 
     override fun forEachLightSource(callback: BiConsumer<BlockPos, BlockState>?) {
         TODO("Not yet implemented")
     }
-    /* might make maps look bad? */
-    private fun create(): HeightLimitView {
-        return object : HeightLimitView {
-            override fun getHeight(): Int {
-                return world.height
-            }
-
-            override fun getBottomY(): Int {
-                return world.bottomY
-            }
-        }
-    }
     override fun getChunkSkyLight(): ChunkSkyLight {
-        return ChunkSkyLight(create());
+        return ChunkSkyLight(HeightLimitView.create(world.bottomY,world.height));
     }
 
     override fun getBrightness(direction: Direction?, shaded: Boolean) = 1f
