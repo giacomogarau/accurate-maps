@@ -42,11 +42,11 @@ class AccurateMapRenderView(private val accurateMapState: AccurateMapState, val 
     private fun create(): HeightLimitView {
         return object : HeightLimitView {
             override fun getHeight(): Int {
-                return 200000
+                return world.height
             }
 
             override fun getBottomY(): Int {
-                return -200000
+                return world.bottomY
             }
         }
     }
