@@ -20,7 +20,7 @@ import java.util.function.BiConsumer
 
 class AccurateMapRenderView(private val accurateMapState: AccurateMapState, val world: World): BlockRenderView, LightSourceView{
 
-    private val lightningProvider = LightingProvider(AccurateMapRenderViewChunkProvider(), true, true)
+    private val lightningProvider = LightingProvider(AccurateMapRenderViewChunkProvider(), true, world.dimension.hasSkyLight)
     private val colorCache = mutableMapOf<BlockPos, Int>()
 
     override fun getHeight() = world.height

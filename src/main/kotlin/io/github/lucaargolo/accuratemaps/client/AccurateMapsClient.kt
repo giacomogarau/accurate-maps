@@ -23,6 +23,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
 import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.world.biome.BiomeKeys
 import org.lwjgl.opengl.GL11
@@ -38,7 +39,8 @@ object AccurateMapsClient: ClientModInitializer {
     private val blockColorMap = linkedMapOf<BlockState, Int>()
 
     fun paintBlockColorMap(client: MinecraftClient) {
-        val atlas = SpriteAtlasTexture(client.bakedModelManager.blockModels.getModel(Blocks.STONE.defaultState).particleSprite.atlasId)
+        val atlasId = client.bakedModelManager.blockModels.getModel(Blocks.STONE.defaultState).particleSprite.atlasId
+        val atlas = client.textureManager.getTexture(atlasId)
         RenderSystem.bindTexture(atlas.glId)
         val width = intArrayOf(0)
         GL11.glGetTexLevelParameteriv(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_WIDTH, width)
@@ -74,6 +76,7 @@ object AccurateMapsClient: ClientModInitializer {
                 if(sumIndex > 0) {
                     blockColorMap[state] = (sumB / sumIndex) + ((sumG / sumIndex) shl 8) + ((sumR / sumIndex) shl 16)
                 }
+
             }
         }
         renderViewsCache.clear()
