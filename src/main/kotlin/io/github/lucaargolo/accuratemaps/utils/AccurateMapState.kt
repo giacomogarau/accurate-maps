@@ -1,7 +1,6 @@
 package io.github.lucaargolo.accuratemaps.utils
 
 import io.github.lucaargolo.accuratemaps.utils.AccurateMapColor.Companion.getAccurate
-import it.unimi.dsi.fastutil.longs.Long2IntArrayMap
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -9,7 +8,6 @@ import net.minecraft.block.MapColor
 import net.minecraft.nbt.*
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
-import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.world.PersistentState
